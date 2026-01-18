@@ -4,493 +4,408 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Lead Scoring Architecture</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Choosing a Vibrant Palette: 'Deep Space & Neon' for a high-tech, data-driven feel -->
-    <!-- Palette: Background: Slate-900, Text: White/Slate-300, Accents: Cyan-400, Purple-500, Pink-500 -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'tech-bg': '#0f172a', // Slate 900
-                        'tech-card': '#1e293b', // Slate 800
-                        'tech-accent': '#38bdf8', // Sky 400
-                        'tech-purple': '#a855f7', // Purple 500
-                        'tech-pink': '#ec4899', // Pink 500
-                        'tech-green': '#22c55e', // Green 500
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <title>WAP | Product Demo Playbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        :root {
+            --primary-blue: #0066FF;
+            --dark-blue: #0047B3;
+            --bg-light: #F8FAFC;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 650px;
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation / Header */
+        header {
+            background: var(--white);
+            padding: 1.5rem 10%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 40px;
+            /* Adjust based on your logo aspect ratio */
+        }
+
+        .header-titles h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .header-titles p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1000px;
             margin: 0 auto;
-            height: 350px;
-            max-height: 400px;
+            padding: 4rem 2rem;
         }
 
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
+        /* Audience Section */
+        .audience-badge-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            background: #E0EBFF;
+            color: var(--primary-blue);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Section Styling */
+        section {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--primary-blue);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Problem/Solution Cards */
+        .pitch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .pitch-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .pitch-card.highlight {
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .pitch-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Interactive Roadmap */
+        .roadmap {
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step:hover {
+            transform: translateX(10px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .step.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #F1F5F9;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 20px;
+            transition: inherit;
+        }
+
+        .step.active .step-num {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Value Props Table */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .value-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 1rem;
+        }
+
+        .check-icon {
+            color: #10B981;
+            font-weight: bold;
+        }
+
+        /* Footer Closing */
+        .closing-box {
+            text-align: center;
+            background: var(--primary-blue);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 16px;
+            margin-top: 4rem;
+        }
+
+        .closing-box h2 {
+            color: white;
+            font-size: 2rem;
+            text-transform: none;
+            margin-bottom: 1rem;
+        }
+
+        .closing-box p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+
+            .pitch-grid,
+            .value-grid {
+                grid-template-columns: 1fr;
             }
-        }
-
-        .glass-panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
-    <!-- 
-    SOURCE MATERIAL ANALYSIS & PLAN:
-    1. Introduction: Define the problem - converting raw data into actionable "Temperature".
-    2. Factor 1 (Profile): Visualize the 12 fields and their recommended weights. Goal: Compare importance.
-    3. Factor 2 (Intent): Visualize the hierarchy of intents from "Objection" to "Purchase". Goal: Relationships/Hierarchy.
-    4. The Algorithm: Show the formula combining both.
-    5. The Result: Visualize the thresholds (<30, 30-70, >70).
-    -->
 </head>
 
-<body class="bg-tech-bg text-slate-100 overflow-x-hidden">
+<body>
 
-    <!-- Header Section -->
-    <header class="w-full py-12 px-6 bg-gradient-to-r from-slate-900 to-slate-800 border-b border-slate-700">
-        <div class="max-w-6xl mx-auto text-center">
-            <h1
-                class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-tech-accent to-tech-purple">
-                Lead Scoring Architecture
-            </h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto">
-                A strategic framework for calculating <strong>Lead Score (%)</strong> and <strong>Lead Status</strong>
-                by synthesizing Data Completeness and User Intent.
-            </p>
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="WAP Logo" class="logo-img">
+            <div class="header-titles">
+                <h1>Web AutoPilot</h1>
+                <p>One Page Demo Playbook</p>
+            </div>
         </div>
+        <div class="badge">AI Everything Event 2026</div>
     </header>
 
-    <!-- Main Content Grid -->
-    <main class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+    <div class="container">
 
-        <!-- SECTION 1: INTRODUCTION & STRATEGY -->
-        <section class="md:col-span-2 mb-8">
-            <div class="glass-panel rounded-2xl p-8 shadow-lg shadow-purple-900/20">
-                <h2 class="text-3xl font-bold mb-4 flex items-center gap-3">
-                    <span class="text-tech-accent">⚙️</span> The Core Strategy
-                </h2>
-                <p class="text-slate-300 leading-relaxed text-lg mb-6">
-                    A robust lead score cannot rely on data alone. A contact with a full profile who never replies is
-                    "Cold." Conversely, a contact with just an email who requests a demo is "Hot." This model uses a
-                    <strong>Weighted Hybrid Approach</strong>:
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <div class="text-4xl mb-2">📋</div>
-                        <h3 class="font-bold text-tech-accent mb-2">1. Profile Score</h3>
-                        <p class="text-sm text-slate-400">Measures data quality & potential fit. (Pre-Communication)</p>
+        <section class="visible">
+            <h2>Target Audience</h2>
+            <div class="audience-badge-container">
+                <span class="badge">Marketing Manager</span>
+                <span class="badge">Business Owner</span>
+                <span class="badge">E-commerce Director</span>
+            </div>
+        </section>
+
+        <section class="visible">
+            <h2>The Core Narrative</h2>
+            <div class="pitch-grid">
+                <div class="pitch-card">
+                    <h3>The Problem</h3>
+                    <p style="color: var(--text-muted);">"My website serves international clients, but it’s available in
+                        one language only, which limits reach and conversions."</p>
+                </div>
+                <div class="pitch-card highlight">
+                    <h3>The Solution</h3>
+                    <p><strong>WAP</strong> allows you to translate your entire site in clicks. No programming, no
+                        technical barriers—just global expansion.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="visible" id="demo-flow">
+            <h2>Interactive Demo Flow (Happy Path)</h2>
+            <div class="roadmap">
+                <div class="step" onclick="toggleStep(this)">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <h4>Enter Website URL</h4>
+                        <p>Simply paste your existing domain into the WAP dashboard.</p>
                     </div>
-                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <div class="text-4xl mb-2">💬</div>
-                        <h3 class="font-bold text-tech-purple mb-2">2. Intent Score</h3>
-                        <p class="text-sm text-slate-400">Measures engagement & buying signals. (Post-Communication)</p>
+                </div>
+                <div class="step" onclick="toggleStep(this)">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <h4>Select Target Language</h4>
+                        <p>Choose from over 100+ languages powered by neural AI.</p>
                     </div>
-                    <div class="p-6 bg-slate-800 rounded-xl border border-slate-700">
-                        <div class="text-4xl mb-2">🔥</div>
-                        <h3 class="font-bold text-tech-pink mb-2">3. The Status</h3>
-                        <p class="text-sm text-slate-400">The calculated output: Cold, Warm, or Hot.</p>
+                </div>
+                <div class="step" onclick="toggleStep(this)">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <h4>Automatic Translation</h4>
+                        <p>WAP scans and translates content in real-time while preserving layout.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="toggleStep(this)">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <h4>Preview & Review</h4>
+                        <p>Visual editor to check context and cultural nuances.</p>
+                    </div>
+                </div>
+                <div class="step" onclick="toggleStep(this)">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <h4>Publish</h4>
+                        <p>One click to push live to your new global audience.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: FACTOR 1 - DATA COMPLETENESS -->
-        <div class="md:col-span-2 lg:col-span-1 flex flex-col">
-            <div class="bg-white/5 rounded-2xl p-6 border border-white/10 h-full">
-                <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-tech-accent mb-2">Factor 1: Profile Completeness</h3>
-                    <p class="text-slate-400 text-sm">
-                        Not all data fields are equal. We assign weights to your 12 fields based on their utility for
-                        sales contact and qualification.
-                        <strong>Email</strong> and <strong>Phone</strong> are critical; <strong>Employee Count</strong>
-                        is secondary.
-                    </p>
+        <section class="visible">
+            <h2>Business Value & ROI</h2>
+            <div class="value-grid">
+                <div class="value-item">
+                    <span class="check-icon">✓</span>
+                    <div>
+                        <strong>No development needed</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Save thousands on engineering costs.
+                        </p>
+                    </div>
                 </div>
-                <!-- Chart Container -->
-                <div class="chart-container">
-                    <canvas id="profileChart"></canvas>
+                <div class="value-item">
+                    <span class="check-icon">✓</span>
+                    <div>
+                        <strong>Fast Setup</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Go from local to global in under 5
+                            minutes.</p>
+                    </div>
                 </div>
-                <div class="mt-4 p-4 bg-slate-800/50 rounded-lg">
-                    <p class="text-xs text-slate-400">
-                        <strong>Logic:</strong> Sum of filled weighted fields = Raw Profile Score (0-100).
-                    </p>
+                <div class="value-item">
+                    <span class="check-icon">✓</span>
+                    <div>
+                        <strong>Multi-language reach</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Instantly access untapped markets.</p>
+                    </div>
+                </div>
+                <div class="value-item">
+                    <span class="check-icon">✓</span>
+                    <div>
+                        <strong>SEO-ready structure</strong>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Rank on Google in every language
+                            automatically.</p>
+                    </div>
                 </div>
             </div>
+        </section>
+
+        <div class="closing-box">
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 10px;">The
+                Closing Line</p>
+            <h2>"Within minutes, your website becomes accessible to a new market."</h2>
         </div>
 
-        <!-- SECTION 3: FACTOR 2 - INTENT ANALYSIS -->
-        <div class="md:col-span-2 lg:col-span-1 flex flex-col">
-            <div class="bg-white/5 rounded-2xl p-6 border border-white/10 h-full">
-                <div class="mb-6">
-                    <h3 class="text-2xl font-bold text-tech-purple mb-2">Factor 2: Lead Intent</h3>
-                    <p class="text-slate-400 text-sm">
-                        Once communication starts, behavior trumps demographics. We categorize your intents into four
-                        tiers, assigning an "Intent Value" to each action.
-                        <strong>Positive Closure</strong> actions drive the score highest.
-                    </p>
-                </div>
-                <!-- Chart Container -->
-                <div class="chart-container">
-                    <canvas id="intentChart"></canvas>
-                </div>
-                <div class="mt-4 p-4 bg-slate-800/50 rounded-lg">
-                    <p class="text-xs text-slate-400">
-                        <strong>Logic:</strong> The system takes the <em>highest</em> observed intent score recorded for
-                        the lead.
-                    </p>
-                </div>
-            </div>
-        </div>
+    </div>
 
-        <!-- SECTION 4: THE CALCULATION ALGORITHM -->
-        <section class="md:col-span-2 mt-4">
-            <div class="glass-panel rounded-2xl p-8 border-t-4 border-tech-green">
-                <h2 class="text-3xl font-bold mb-6 text-white text-center">The Scoring Algorithm</h2>
-
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
-                    <!-- Formula Block -->
-                    <div class="bg-slate-900 px-6 py-4 rounded-lg border border-slate-700 text-center shadow-xl">
-                        <span class="text-slate-400 text-sm uppercase tracking-wider block mb-1">Total Score
-                            Formula</span>
-                        <div class="text-xl md:text-3xl font-mono text-tech-green font-bold">
-                            (Profile% × 0.35) + (Intent% × 0.65)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Chart: Status Thresholds -->
-                    <div class="bg-slate-800 rounded-xl p-6">
-                        <h4 class="text-lg font-semibold text-slate-200 mb-4 text-center">Lead Status Thresholds</h4>
-                        <div class="chart-container" style="height: 250px;">
-                            <canvas id="statusGauge"></canvas>
-                        </div>
-                        <div class="flex justify-between text-sm text-slate-400 mt-2 px-8">
-                            <span>&lt; 30% (Cold)</span>
-                            <span>30-70% (Warm)</span>
-                            <span>&gt; 70% (Hot)</span>
-                        </div>
-                    </div>
-
-                    <!-- Text: Explanation -->
-                    <div class="flex flex-col justify-center space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="bg-blue-900/50 p-2 rounded text-blue-300">❄️</div>
-                            <div>
-                                <strong class="text-blue-300 block">Cold (&lt; 30%)</strong>
-                                <p class="text-slate-400 text-sm">Typically a new lead with incomplete data and no
-                                    interaction. Needs enrichment.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="bg-orange-900/50 p-2 rounded text-orange-300">🔥</div>
-                            <div>
-                                <strong class="text-orange-300 block">Warm (30% - 70%)</strong>
-                                <p class="text-slate-400 text-sm">Either a perfect profile with no contact, or a partial
-                                    profile asking questions. Ready for outreach.</p>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="bg-red-900/50 p-2 rounded text-red-300">🚀</div>
-                            <div>
-                                <strong class="text-red-300 block">Hot (&gt; 70%)</strong>
-                                <p class="text-slate-400 text-sm">High intent signals (Demo/Pricing) regardless of
-                                    profile completeness. Immediate sales priority.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 5: SCENARIO SIMULATION -->
-        <section class="md:col-span-2 mb-12">
-            <h3 class="text-2xl font-bold text-white mb-6 pl-2 border-l-4 border-tech-pink">Live Scenarios</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- Scenario 1 -->
-                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                    <h4 class="text-lg font-bold text-white mb-2">1. The "Ghost" Profile</h4>
-                    <p class="text-xs text-slate-400 mb-4">Complete data, but zero interaction.</p>
-                    <div class="space-y-2 text-sm font-mono">
-                        <div class="flex justify-between"><span>Profile:</span> <span class="text-green-400">100%</span>
-                        </div>
-                        <div class="flex justify-between"><span>Intent:</span> <span class="text-red-400">0%
-                                (None)</span></div>
-                        <div class="h-px bg-slate-600 my-2"></div>
-                        <div class="flex justify-between font-bold">
-                            <span>Score:</span>
-                            <span>35%</span>
-                        </div>
-                    </div>
-                    <div
-                        class="mt-3 inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded text-xs font-bold border border-orange-500/50">
-                        Status: WARM
-                    </div>
-                </div>
-
-                <!-- Scenario 2 -->
-                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                    <h4 class="text-lg font-bold text-white mb-2">2. The Eager Lead</h4>
-                    <p class="text-xs text-slate-400 mb-4">Only Name & Email, but wants a Demo.</p>
-                    <div class="space-y-2 text-sm font-mono">
-                        <div class="flex justify-between"><span>Profile:</span> <span class="text-orange-400">30%</span>
-                        </div>
-                        <div class="flex justify-between"><span>Intent:</span> <span class="text-green-400">90%
-                                (Demo)</span></div>
-                        <div class="h-px bg-slate-600 my-2"></div>
-                        <div class="flex justify-between font-bold">
-                            <span>Score:</span>
-                            <span>69%</span>
-                        </div>
-                    </div>
-                    <div
-                        class="mt-3 inline-block px-3 py-1 bg-orange-500/20 text-orange-300 rounded text-xs font-bold border border-orange-500/50">
-                        Status: WARM (Borderline Hot)
-                    </div>
-                </div>
-
-                <!-- Scenario 3 -->
-                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                    <h4 class="text-lg font-bold text-white mb-2">3. The Perfect Lead</h4>
-                    <p class="text-xs text-slate-400 mb-4">Good data + Pricing discussion.</p>
-                    <div class="space-y-2 text-sm font-mono">
-                        <div class="flex justify-between"><span>Profile:</span> <span class="text-green-400">80%</span>
-                        </div>
-                        <div class="flex justify-between"><span>Intent:</span> <span class="text-blue-400">70%
-                                (Pricing)</span></div>
-                        <div class="h-px bg-slate-600 my-2"></div>
-                        <div class="flex justify-between font-bold">
-                            <span>Score:</span>
-                            <span>73.5%</span>
-                        </div>
-                    </div>
-                    <div
-                        class="mt-3 inline-block px-3 py-1 bg-red-500/20 text-red-300 rounded text-xs font-bold border border-red-500/50">
-                        Status: HOT
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-8 text-center text-slate-500 text-sm">
-        <p>Generated for CRM Architecture Planning • Based on User Defined Fields & Intents</p>
-    </footer>
-
-    <!-- CHART JS IMPLEMENTATION -->
     <script>
-        // --- UTILITY: Label Wrapping Helper ---
-        function wrapLabels(labels, maxChars = 16) {
-            return labels.map(label => {
-                if (label.length <= maxChars) return label;
-                const words = label.split(' ');
-                const lines = [];
-                let currentLine = words[0];
-
-                for (let i = 1; i < words.length; i++) {
-                    if ((currentLine + " " + words[i]).length < maxChars) {
-                        currentLine += " " + words[i];
-                    } else {
-                        lines.push(currentLine);
-                        currentLine = words[i];
-                    }
-                }
-                lines.push(currentLine);
-                return lines;
+        // Interaction for Roadmap Steps
+        function toggleStep(element) {
+            // Remove active class from all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
             });
+            // Add active class to clicked step
+            element.classList.add('active');
         }
 
-        // --- GLOBAL CHART CONFIG ---
-        Chart.defaults.color = '#94a3b8';
-        Chart.defaults.borderColor = '#334155';
+        // Simple scroll animation observer
+        const observerOptions = {
+            threshold: 0.1
+        };
 
-        // --- 1. PROFILE COMPLETENESS CHART (Horizontal Bar) ---
-        // Weights assigned based on "Importance" logic derived from CRM best practices
-        const profileCtx = document.getElementById('profileChart').getContext('2d');
-        const profileLabels = [
-            'Email Address (15%)', 'Phone Number (15%)',
-            'Full Name (10%)', 'Company Name (10%)',
-            'Job Title (10%)', 'Industry (10%)',
-            'Source (10%)', 'LinkedIn URL (5%)',
-            'Website (5%)', 'Country (5%)',
-            'Employee Count (3%)', 'Region (2%)'
-        ];
-
-        // Using distinct colors to group importance tiers
-        const profileColors = [
-            '#38bdf8', '#38bdf8', // Critical (Sky)
-            '#a855f7', '#a855f7', '#a855f7', '#a855f7', '#a855f7', // High (Purple)
-            '#ec4899', '#ec4899', '#ec4899', // Medium (Pink)
-            '#94a3b8', '#94a3b8' // Low (Slate)
-        ];
-
-        new Chart(profileCtx, {
-            type: 'bar',
-            data: {
-                labels: wrapLabels(profileLabels),
-                datasets: [{
-                    label: 'Field Weight Score',
-                    data: [15, 15, 10, 10, 10, 10, 10, 5, 5, 5, 3, 2],
-                    backgroundColor: profileColors,
-                    borderRadius: 4,
-                }]
-            },
-            options: {
-                indexAxis: 'y', // Horizontal bar
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            title: function (tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        max: 20,
-                        grid: { display: false }
-                    },
-                    y: {
-                        grid: { display: false }
-                    }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
-            }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
         });
-
-        // --- 2. INTENT SCORE CHART (Vertical Bar / Funnel Concept) ---
-        // Grouping user intents by sentiment and assigning numerical scores
-        const intentCtx = document.getElementById('intentChart').getContext('2d');
-        const intentData = [
-            { label: 'Purchase/Closure', score: 100, color: '#22c55e' }, // Green
-            { label: 'Demo Request', score: 90, color: '#4ade80' },
-            { label: 'Meeting Scheduled', score: 80, color: '#86efac' },
-            { label: 'Call Requested', score: 70, color: '#bbf7d0' },
-            { label: 'Pricing Inquiry', score: 60, color: '#38bdf8' }, // Sky
-            { label: 'Comparison/Resources', score: 50, color: '#7dd3fc' },
-            { label: 'General Questions', score: 40, color: '#bae6fd' },
-            { label: 'Conversational', score: 25, color: '#cbd5e1' }, // Slate
-            { label: 'Objections (Price/Timing)', score: 15, color: '#f87171' }, // Red
-            { label: 'Rejection/Competitor', score: 0, color: '#ef4444' }
-        ];
-
-        new Chart(intentCtx, {
-            type: 'bar',
-            data: {
-                labels: wrapLabels(intentData.map(d => d.label)),
-                datasets: [{
-                    label: 'Intent Impact Score',
-                    data: intentData.map(d => d.score),
-                    backgroundColor: intentData.map(d => d.color),
-                    borderRadius: 6,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            title: function (tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            },
-                            afterBody: function () {
-                                return "Higher scores indicate stronger buying intent.";
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 100,
-                        title: { display: true, text: 'Intent Score Value' }
-                    },
-                    x: {
-                        grid: { display: false }
-                    }
-                }
-            }
-        });
-
-        // --- 3. STATUS THRESHOLD GAUGE (Doughnut) ---
-        const gaugeCtx = document.getElementById('statusGauge').getContext('2d');
-        new Chart(gaugeCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Cold (<30%)', 'Warm (30-70%)', 'Hot (>70%)'],
-                datasets: [{
-                    data: [30, 40, 30], // Represents the segments relative size
-                    backgroundColor: [
-                        '#3b82f6', // Cold Blue
-                        '#f97316', // Warm Orange
-                        '#ef4444'  // Hot Red
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%', // Make it a thin ring
-                circumference: 180, // Half circle
-                rotation: -90,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { color: '#cbd5e1' }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            title: function (tooltipItems) {
-                                const item = tooltipItems[0];
-                                let label = item.chart.data.labels[item.dataIndex];
-                                return Array.isArray(label) ? label.join(' ') : label;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
     </script>
+
 </body>
 
 </html>
