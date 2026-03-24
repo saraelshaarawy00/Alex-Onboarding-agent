@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Setup Assistant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ai-setup-widget.css">
+</head>
+<body>
+
+    <!-- Widget Trigger Button -->
+    <button id="widget-trigger" class="widget-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span>Setup Assistant</span>
+    </button>
+
+    <!-- Side Panel Overlay -->
+    <div id="panel-overlay" class="panel-overlay"></div>
+
+    <!-- AI Setup Assistant Side Panel -->
+    <aside id="assistant-panel" class="assistant-panel">
+        <div class="panel-header">
+            <div class="header-content">
+                <div class="ai-avatar">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                </div>
+                <div class="header-text">
+                    <h2>AI Setup Assistant</h2>
+                    <p>Let’s get your website translated in minutes 🚀</p>
+                </div>
+            </div>
+            <button id="close-panel" class="close-btn" aria-label="Close panel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <div class="step-checklist">
+                <span id="step-1-indicator" class="step active">Website</span>
+                <span class="step-separator"></span>
+                <span id="step-2-indicator" class="step">Languages</span>
+                <span class="step-separator"></span>
+                <span id="step-3-indicator" class="step">Setup</span>
+            </div>
+        </div>
+
+        <div id="chat-container" class="chat-container">
+            <!-- Chat history will be inserted here dynamically -->
+        </div>
+
+        <div class="panel-footer">
+            <div id="input-area" class="input-area">
+                <!-- Input components will swap based on step -->
+            </div>
+            
+            <div class="action-buttons">
+                <button id="skip-btn" class="btn btn-secondary">Skip</button>
+                <button id="continue-btn" class="btn btn-primary" disabled>Continue</button>
+            </div>
+        </div>
+    </aside>
+
+    <script type="template" id="tpl-ai-message">
+        <div class="chat-message ai-message fade-in">
+            <div class="message-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            </div>
+            <div class="message-bubble">${content}</div>
+        </div>
+    </script>
+
+    <script type="template" id="tpl-user-message">
+        <div class="chat-message user-message fade-in">
+            <div class="message-bubble">${content}</div>
+        </div>
+    </script>
+    
+    <script type="template" id="tpl-typing">
+        <div class="chat-message ai-message typing-indicator-msg" id="typing-indicator">
+            <div class="message-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            </div>
+            <div class="message-bubble">
+                <div class="typing-dots">
+                    <span></span><span></span><span></span>
+                </div>
+                <span class="typing-text">Analyzing...</span>
+            </div>
+        </div>
+    </script>
+
+    <script src="ai-setup-widget.js"></script>
+</body>
+</html>
