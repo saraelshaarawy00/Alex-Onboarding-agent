@@ -1,0 +1,12 @@
+{
+  "name": "wap-onboarding-agent",
+  "version": "1.0.0",
+  "description": "AI-powered onboarding assistant for WAP Product",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
