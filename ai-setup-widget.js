@@ -94,18 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFields.appendChild(tplStep1.content.cloneNode(true));
         const urlInput = document.getElementById('website-url');
         const refInput = document.getElementById('reference-url');
+        const step1Next = document.getElementById('step-1-next');
         
         urlInput.value = userData.url;
         refInput.value = userData.reference;
 
         const validate = () => {
-            continueBtn.disabled = !urlInput.value.trim().includes('.');
+            const isValid = urlInput.value.trim().includes('.');
+            continueBtn.disabled = !isValid;
+            step1Next.disabled = !isValid;
         };
 
         urlInput.addEventListener('input', validate);
         validate();
 
-        continueBtn.onclick = () => {
+        const handleNext = () => {
             userData.url = urlInput.value.trim();
             userData.reference = refInput.value.trim();
             
@@ -117,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderStep(2);
             }, 1800);
         };
+
+        continueBtn.onclick = handleNext;
+        step1Next.onclick = handleNext;
     };
 
     // Step 2: AI Detection
@@ -124,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFields.appendChild(tplStep2.content.cloneNode(true));
         const industryInput = document.getElementById('detected-industry');
         const audienceInput = document.getElementById('detected-audience');
+        const step2Next = document.getElementById('step-2-next');
         
         industryInput.value = userData.industry;
         audienceInput.value = userData.audience;
@@ -132,15 +139,17 @@ document.addEventListener('DOMContentLoaded', () => {
         audienceInput.addEventListener('input', (e) => userData.audience = e.target.value);
 
         continueBtn.innerText = 'Looks good';
-        continueBtn.onclick = () => {
-            renderStep(3);
-        };
+        
+        const handleNext = () => renderStep(3);
+        continueBtn.onclick = handleNext;
+        step2Next.onclick = handleNext;
     };
 
     // Step 3: Languages
     const initStep3 = () => {
         dynamicFields.appendChild(tplStep3.content.cloneNode(true));
         const chipsContainer = document.getElementById('chips-container');
+        const step3Next = document.getElementById('step-3-next');
         
         languagesList.forEach(lang => {
             const chip = document.createElement('div');
@@ -159,16 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const validate = () => {
-            continueBtn.disabled = userData.targetLanguages.length === 0;
+            const isValid = userData.targetLanguages.length > 0;
+            continueBtn.disabled = !isValid;
+            step3Next.disabled = !isValid;
         };
         validate();
 
-        continueBtn.onclick = () => {
+        const handleNext = () => {
             showThinking('Detecting pages...');
             dynamicFields.innerHTML = '';
             continueBtn.disabled = true;
             setTimeout(() => renderStep(4), 1200);
         };
+        continueBtn.onclick = handleNext;
+        step3Next.onclick = handleNext;
     };
 
     // Step 4: Page Selection
@@ -176,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFields.appendChild(tplStep4.content.cloneNode(true));
         const optionCards = document.querySelectorAll('.option-card');
         const checklist = document.getElementById('pages-checklist');
+        const step4Next = document.getElementById('step-4-next');
 
         const updateUI = (val) => {
             userData.pageSelection = val;
@@ -192,13 +206,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateUI(userData.pageSelection);
 
-        continueBtn.onclick = () => renderStep(5);
+        const handleNext = () => renderStep(5);
+        continueBtn.onclick = handleNext;
+        step4Next.onclick = handleNext;
     };
 
     // Step 5: Script Installation
     const initStep5 = () => {
         dynamicFields.appendChild(tplStep5.content.cloneNode(true));
         const copyBtn = document.getElementById('copy-script-btn');
+        const step5Next = document.getElementById('step-5-next');
+        const step5Skip = document.getElementById('step-5-skip');
         const scriptCode = '<script src="https://cdn.wap-translate.com/widget.js" data-project="WP-782" async></script>';
 
         copyBtn.onclick = () => {
@@ -208,15 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
+        const handleSkip = () => renderStep(6);
         skipBtn.style.display = 'inline-block';
         skipBtn.innerText = 'I’ll do this later';
-        skipBtn.onclick = () => renderStep(6);
+        skipBtn.onclick = handleSkip;
+        step5Skip.onclick = handleSkip;
 
-        continueBtn.innerText = 'Copy Script & Continue';
-        continueBtn.onclick = () => {
+        const handleNext = () => {
             navigator.clipboard.writeText(scriptCode);
             renderStep(6);
         };
+        continueBtn.innerText = 'Copy Script & Continue';
+        continueBtn.onclick = handleNext;
+        step5Next.onclick = handleNext;
     };
 
     // Final Step: Success
