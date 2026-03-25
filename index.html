@@ -1,411 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WAP | Product Demo Playbook</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-blue: #0066FF;
-            --dark-blue: #0047B3;
-            --bg-light: #F8FAFC;
-            --text-main: #1E293B;
-            --text-muted: #64748B;
-            --border-color: #E2E8F0;
-            --white: #FFFFFF;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Navigation / Header */
-        header {
-            background: var(--white);
-            padding: 1.5rem 10%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-img {
-            height: 40px;
-            /* Adjust based on your logo aspect ratio */
-        }
-
-        .header-titles h1 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-        }
-
-        .header-titles p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-        }
-
-        /* Audience Section */
-        .audience-badge-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 3rem;
-        }
-
-        .badge {
-            background: #E0EBFF;
-            color: var(--primary-blue);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        /* Section Styling */
-        section {
-            margin-bottom: 6rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease-out;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        h2 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            color: var(--primary-blue);
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Problem/Solution Cards */
-        .pitch-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-
-        .pitch-card {
-            background: var(--white);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .pitch-card.highlight {
-            border-left: 4px solid var(--primary-blue);
-        }
-
-        .pitch-card h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-
-        /* Interactive Roadmap */
-        .roadmap {
-            position: relative;
-            margin-top: 2rem;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            background: var(--white);
-            margin-bottom: 1rem;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .step:hover {
-            transform: translateX(10px);
-            border-color: var(--primary-blue);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        .step.active {
-            background: var(--primary-blue);
-            color: white;
-        }
-
-        .step-num {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #F1F5F9;
-            color: var(--primary-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            margin-right: 20px;
-            transition: inherit;
-        }
-
-        .step.active .step-num {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .step-content h4 {
-            font-size: 1.1rem;
-            margin-bottom: 2px;
-        }
-
-        .step-content p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        /* Value Props Table */
-        .value-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .value-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 1rem;
-        }
-
-        .check-icon {
-            color: #10B981;
-            font-weight: bold;
-        }
-
-        /* Footer Closing */
-        .closing-box {
-            text-align: center;
-            background: var(--primary-blue);
-            color: white;
-            padding: 4rem 2rem;
-            border-radius: 16px;
-            margin-top: 4rem;
-        }
-
-        .closing-box h2 {
-            color: white;
-            font-size: 2rem;
-            text-transform: none;
-            margin-bottom: 1rem;
-        }
-
-        .closing-box p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 768px) {
-
-            .pitch-grid,
-            .value-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <title>AI Setup Assistant | SaaS Onboarding</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="ai-setup-widget.css">
 </head>
-
 <body>
 
-    <header>
-        <div class="logo-container">
-            <img src="logo.png" alt="WAP Logo" class="logo-img">
-            <div class="header-titles">
-                <h1>Web AutoPilot</h1>
-                <p>One Page Demo Playbook</p>
-            </div>
-        </div>
-        <div class="badge">AI Everything Event 2026</div>
-    </header>
+    <!-- Widget Trigger Button (Optional for now, but keeping for direct access) -->
+    <button id="widget-trigger" class="widget-trigger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span>Setup Project</span>
+    </button>
 
-    <div class="container">
+    <!-- Modal Overlay -->
+    <div id="panel-overlay" class="panel-overlay"></div>
 
-        <section class="visible">
-            <h2>Target Audience</h2>
-            <div class="audience-badge-container">
-                <span class="badge">Marketing Manager</span>
-                <span class="badge">Business Owner</span>
-                <span class="badge">E-commerce Director</span>
-            </div>
-        </section>
-
-        <section class="visible">
-            <h2>The Core Narrative</h2>
-            <div class="pitch-grid">
-                <div class="pitch-card">
-                    <h3>The Problem</h3>
-                    <p style="color: var(--text-muted);">"My website serves international clients, but it’s available in
-                        one language only, which limits reach and conversions."</p>
+    <!-- AI Setup Assistant Centered Modal -->
+    <div id="assistant-panel" class="assistant-panel">
+        <div class="panel-header">
+            <div class="header-content">
+                <div class="ai-avatar">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
                 </div>
-                <div class="pitch-card highlight">
-                    <h3>The Solution</h3>
-                    <p><strong>WAP</strong> allows you to translate your entire site in clicks. No programming, no
-                        technical barriers—just global expansion.</p>
+                <div class="header-text">
+                    <h2>AI Setup Assistant</h2>
+                    <p>Let’s get your website ready for translation</p>
                 </div>
             </div>
-        </section>
-
-        <section class="visible" id="demo-flow">
-            <h2>Interactive Demo Flow (Happy Path)</h2>
-            <div class="roadmap">
-                <div class="step" onclick="toggleStep(this)">
-                    <div class="step-num">1</div>
-                    <div class="step-content">
-                        <h4>Enter Website URL</h4>
-                        <p>Simply paste your existing domain into the WAP dashboard.</p>
-                    </div>
-                </div>
-                <div class="step" onclick="toggleStep(this)">
-                    <div class="step-num">2</div>
-                    <div class="step-content">
-                        <h4>Select Target Language</h4>
-                        <p>Choose from over 100+ languages powered by neural AI.</p>
-                    </div>
-                </div>
-                <div class="step" onclick="toggleStep(this)">
-                    <div class="step-num">3</div>
-                    <div class="step-content">
-                        <h4>Automatic Translation</h4>
-                        <p>WAP scans and translates content in real-time while preserving layout.</p>
-                    </div>
-                </div>
-                <div class="step" onclick="toggleStep(this)">
-                    <div class="step-num">4</div>
-                    <div class="step-content">
-                        <h4>Preview & Review</h4>
-                        <p>Visual editor to check context and cultural nuances.</p>
-                    </div>
-                </div>
-                <div class="step" onclick="toggleStep(this)">
-                    <div class="step-num">5</div>
-                    <div class="step-content">
-                        <h4>Publish</h4>
-                        <p>One click to push live to your new global audience.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="visible">
-            <h2>Business Value & ROI</h2>
-            <div class="value-grid">
-                <div class="value-item">
-                    <span class="check-icon">✓</span>
-                    <div>
-                        <strong>No development needed</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Save thousands on engineering costs.
-                        </p>
-                    </div>
-                </div>
-                <div class="value-item">
-                    <span class="check-icon">✓</span>
-                    <div>
-                        <strong>Fast Setup</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Go from local to global in under 5
-                            minutes.</p>
-                    </div>
-                </div>
-                <div class="value-item">
-                    <span class="check-icon">✓</span>
-                    <div>
-                        <strong>Multi-language reach</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Instantly access untapped markets.</p>
-                    </div>
-                </div>
-                <div class="value-item">
-                    <span class="check-icon">✓</span>
-                    <div>
-                        <strong>SEO-ready structure</strong>
-                        <p style="font-size: 0.85rem; color: var(--text-muted);">Rank on Google in every language
-                            automatically.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="closing-box">
-            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 10px;">The
-                Closing Line</p>
-            <h2>"Within minutes, your website becomes accessible to a new market."</h2>
+            <button id="close-panel" class="close-btn" aria-label="Close panel">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
         </div>
 
+        <div class="progress-section">
+            <div class="progress-steps-container">
+                <div id="step-1" class="step-indicator active"><span>1</span></div>
+                <div class="step-line"></div>
+                <div id="step-2" class="step-indicator"><span>2</span></div>
+                <div class="step-line"></div>
+                <div id="step-3" class="step-indicator"><span>3</span></div>
+                <div class="step-line"></div>
+                <div id="step-4" class="step-indicator"><span>4</span></div>
+                <div class="step-line"></div>
+                <div id="step-5" class="step-indicator"><span>5</span></div>
+            </div>
+        </div>
+
+        <div id="main-content" class="main-content">
+            <!-- Dynamic step content will be loaded here -->
+            <div id="ai-response-area" class="ai-response-area"></div>
+            <div id="dynamic-fields" class="dynamic-fields"></div>
+        </div>
+
+        <div class="panel-footer">
+            <button id="back-btn" class="btn btn-tertiary" style="visibility: hidden;">Back</button>
+            <div class="right-actions">
+                <button id="skip-btn" class="btn btn-secondary">Skip</button>
+                <button id="continue-btn" class="btn btn-primary" disabled>Continue</button>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Interaction for Roadmap Steps
-        function toggleStep(element) {
-            // Remove active class from all steps
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
-            // Add active class to clicked step
-            element.classList.add('active');
-        }
+    <!-- Templates for different steps -->
+    
+    <!-- Step 1: Website Input -->
+    <template id="tpl-step-1">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Start by adding your website link</h3>
+            <div class="input-group">
+                <label for="website-url">Website URL</label>
+                <input type="url" id="website-url" placeholder="https://yourwebsite.com" class="input-field">
+            </div>
+            <div class="input-group">
+                <label for="reference-url">Reference website (optional)</label>
+                <input type="url" id="reference-url" placeholder="https://competitor.com" class="input-field">
+            </div>
+        </div>
+    </template>
 
-        // Simple scroll animation observer
-        const observerOptions = {
-            threshold: 0.1
-        };
+    <!-- Step 2: AI Detection -->
+    <template id="tpl-step-2">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Based on your website, here’s what I found 👀</h3>
+            <div class="detection-cards">
+                <div class="detection-card">
+                    <span class="card-label">Industry</span>
+                    <input type="text" id="detected-industry" class="editable-field" value="E-commerce">
+                </div>
+                <div class="detection-card">
+                    <span class="card-label">Target Audience</span>
+                    <input type="text" id="detected-audience" class="editable-field" value="Businesses">
+                </div>
+            </div>
+            <p class="micro-note">You can edit these if they're not quite right.</p>
+        </div>
+    </template>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+    <!-- Step 3: Languages -->
+    <template id="tpl-step-3">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Your website is in <span class="highlight">English</span></h3>
+            <p class="step-subtitle">Which languages do you want to translate to?</p>
+            <div id="chips-container" class="chips-container">
+                <!-- Chips will be generated here -->
+            </div>
+            <div class="smart-suggestion">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spark-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                <span>We recommend <strong>Arabic</strong> based on your audience</span>
+            </div>
+        </div>
+    </template>
 
-        document.querySelectorAll('section').forEach(section => {
-            observer.observe(section);
-        });
-    </script>
+    <!-- Step 4: Pages Selection -->
+    <template id="tpl-step-4">
+        <div class="step-content fade-in">
+            <h3 class="step-title">We found multiple pages on your website</h3>
+            <div class="selection-options">
+                <label class="option-card active" data-option="all">
+                    <input type="radio" name="page-selection" value="all" checked>
+                    <div class="option-content">
+                        <strong>Translate all pages</strong>
+                        <span>Recommended for full coverage</span>
+                    </div>
+                </label>
+                <label class="option-card" data-option="specific">
+                    <input type="radio" name="page-selection" value="specific">
+                    <div class="option-content">
+                        <strong>Choose specific pages</strong>
+                        <span>Select only the pages you need</span>
+                    </div>
+                </label>
+            </div>
+            <div id="pages-checklist" class="pages-checklist hidden">
+                <div class="page-item">
+                    <span>Home (/)</span>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="page-item">
+                    <span>Pricing (/pricing)</span>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="page-item">
+                    <span>About (/about)</span>
+                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+            </div>
+        </div>
+    </template>
 
+    <!-- Step 5: Script Installation -->
+    <template id="tpl-step-5">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Install the language switcher</h3>
+            <p class="step-subtitle">To show the language switcher on your website, you’ll need to add this small script.</p>
+            <div class="code-block-container">
+                <div class="code-header">
+                    <span>Javascript Snippet</span>
+                    <button id="copy-script-btn" class="copy-btn">Copy</button>
+                </div>
+                <pre><code>&lt;script src="https://cdn.wap-translate.com/widget.js" data-project="WP-782" async&gt;&lt;/script&gt;</code></pre>
+            </div>
+            <p class="micro-note">Paste it into your website once (like in your main layout), and it will appear across your whole website.</p>
+        </div>
+    </template>
+
+    <!-- Final Step: Success -->
+    <template id="tpl-step-final">
+        <div class="step-content fade-in success-state">
+            <div class="success-icon">🚀</div>
+            <h3 class="step-title">You're all set!</h3>
+            <p class="step-subtitle">You can always come back and edit your setup anytime.</p>
+            <div class="final-actions">
+                <button class="btn btn-primary w-full" id="finish-go-project">Go to my project</button>
+                <button class="btn btn-secondary w-full" id="finish-copy-script">Copy script and install manually</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- AI Thinking/Analyzing Component -->
+    <template id="tpl-ai-thinking">
+        <div class="ai-thinking fade-in">
+            <div class="thinking-dots"><span></span><span></span><span></span></div>
+            <span id="thinking-text">Analyzing your website...</span>
+        </div>
+    </template>
+
+    <script src="ai-setup-widget.js"></script>
 </body>
-
 </html>
