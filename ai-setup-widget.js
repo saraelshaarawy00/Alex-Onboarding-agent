@@ -136,29 +136,37 @@ document.addEventListener('DOMContentLoaded', () => {
         goalInput.value = userData.agentGoal;
 
         const updateUI = () => {
-            if (userData.agentGoal) {
-                resultArea.classList.remove('hidden');
-                continueBtn.innerText = 'Looks good';
-                continueBtn.disabled = false;
+            if (resultArea.classList.contains('hidden')) {
+                continueBtn.innerText = 'Generate';
+                continueBtn.disabled = !goalInput.value.trim();
             } else {
-                continueBtn.innerText = 'Generate Agent';
-                continueBtn.disabled = true;
+                continueBtn.innerText = 'All is good'; // Confirmation name as requested
+                continueBtn.disabled = false;
             }
         };
 
         goalInput.addEventListener('input', (e) => {
             userData.agentGoal = e.target.value;
-            updateUI();
+            if (resultArea.classList.contains('hidden')) updateUI();
         });
 
         continueBtn.onclick = () => {
             if (resultArea.classList.contains('hidden')) {
-                showThinking('Analyzing your goals...');
+                showThinking('Analyzing personality...');
                 setTimeout(() => {
-                    clearThinking();
-                    resultArea.classList.remove('hidden');
-                    continueBtn.innerText = 'Looks good';
-                }, 1500);
+                    showThinking('Designing your agent persona...');
+                    setTimeout(() => {
+                        clearThinking();
+                        resultArea.classList.remove('hidden');
+                        
+                        // Fake AI data based on input
+                        document.getElementById('persona-name').value = 'Alex';
+                        document.getElementById('persona-tone').value = userData.agentGoal.includes('friendly') ? 'Friendly & Warm' : 'Professional & Sharp';
+                        document.getElementById('persona-instructions').value = `Keep the conversation ${userData.agentGoal.toLowerCase()}. Always focus on the customer's needs.`;
+                        
+                        updateUI();
+                    }, 1500);
+                }, 1000);
             } else {
                 renderStep(7);
             }

@@ -137,12 +137,15 @@
     <!-- Step 6: Agent Persona -->
     <template id="tpl-step-6">
         <div class="step-content fade-in">
-            <h3 class="step-title">Almost there! What's your goal for this agent? ✨</h3>
-            <p class="step-subtitle">Describe what you want me to achieve (e.g., Book meetings, answer support).</p>
+            <h3 class="step-title">Describe your agent's personality ✨</h3>
+            <p class="step-subtitle">Tell me what kind of personality you want for your AI agent (e.g., "Professional but witty", "Fast and direct").</p>
             <div class="input-group">
-                <textarea id="agent-goal" class="input-field" rows="4" placeholder="e.g. I want to book qualified meetings for our cloud security platform..."></textarea>
+                <textarea id="agent-goal" class="input-field" rows="4" placeholder="e.g. I want my agent to be very friendly, empathetic, and professional..."></textarea>
             </div>
+            
             <div id="ai-persona-result" class="hidden fade-in">
+                <div class="thinking-divider" style="height: 1px; background: var(--border); margin: 32px 0;"></div>
+                <h4 style="margin-bottom: 16px; font-size: 1.1rem;">AI Suggested Persona</h4>
                 <div class="editable-cards">
                     <div class="edit-card">
                         <span class="card-label">Name</span>
