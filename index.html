@@ -24,7 +24,7 @@
                 </div>
                 <div class="header-text">
                     <h2>AI Setup Assistant</h2>
-                    <p>Let’s build your AI sales agent in minutes</p>
+                    <p>Building your expert sales agent...</p>
                 </div>
             </div>
             <button id="close-panel" class="close-btn" aria-label="Close panel">
@@ -45,6 +45,10 @@
                 <div id="step-5" class="step-indicator"><span>5</span></div>
                 <div class="step-line"></div>
                 <div id="step-6" class="step-indicator"><span>6</span></div>
+                <div class="step-line"></div>
+                <div id="step-7" class="step-indicator"><span>7</span></div>
+                <div class="step-line"></div>
+                <div id="step-8" class="step-indicator"><span>8</span></div>
             </div>
         </div>
 
@@ -57,102 +61,87 @@
         <div class="panel-footer">
             <button id="back-btn" class="btn btn-tertiary" style="visibility: hidden;">Back</button>
             <div class="right-actions">
-                <button id="skip-btn" class="btn btn-secondary">Do this later</button>
+                <button id="skip-btn" class="btn btn-secondary">Skip this step</button>
                 <button id="continue-btn" class="btn btn-primary">Next Step</button>
             </div>
         </div>
     </div>
 
-    <!-- Step 1: Company Profile -->
+    <!-- Step 1: Company Name -->
     <template id="tpl-step-1">
         <div class="step-content fade-in">
-            <h3 class="step-title">Let’s start with your company 👀</h3>
+            <h3 class="step-title">Welcome! First, what's your company name? 😊</h3>
+            <p class="step-subtitle">This helps me personalize your AI agent's identity.</p>
             <div class="input-group">
                 <label for="company-name">Company Name</label>
-                <input type="text" id="company-name" placeholder="Acme Inc." class="input-field">
+                <input type="text" id="company-name" placeholder="e.g. Acme Corp" class="input-field">
             </div>
+            <p class="micro-note mt-4">I'm excited to help you build your sales engine!</p>
+        </div>
+    </template>
+
+    <!-- Step 2: Website URL -->
+    <template id="tpl-step-2">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Great! Now, what's your website URL? 🌐</h3>
+            <p class="step-subtitle">I'll use this to learn about your brand and services.</p>
             <div class="input-group">
                 <label for="website-url">Website URL</label>
                 <input type="url" id="website-url" placeholder="https://acme.com" class="input-field">
             </div>
-            
-            <div class="integration-card">
-                <div class="integration-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
-                    <strong>Connect your Apollo account (Optional)</strong>
-                </div>
-                <div class="input-group">
-                    <label for="apollo-key">API Key</label>
-                    <input type="password" id="apollo-key" placeholder="Paste your API key here" class="input-field">
-                    <p class="micro-note">Found in Apollo settings. No spaces allowed.</p>
-                </div>
-                <div class="flex gap-2 mt-4">
-                    <button class="btn btn-secondary w-full" id="connect-apollo-btn">Connect now</button>
-                </div>
-            </div>
-            <!-- Extra visible button for high-discovery -->
-            <button class="btn btn-primary btn-lg w-full mt-4" id="step-1-next-inline">Next Step</button>
         </div>
     </template>
 
-    <!-- Step 2: Knowledge Sources -->
-    <template id="tpl-step-2">
+    <!-- Step 3: Knowledge Brain (Files) -->
+    <template id="tpl-step-3">
         <div class="step-content fade-in">
-            <h3 class="step-title">Now let’s give your AI agent the knowledge it needs 🧠</h3>
-            <p class="step-subtitle">This helps your AI agent understand your company like a trained employee.</p>
-            
+            <h3 class="step-title">Let's feed your AI some knowledge! 🧠</h3>
+            <p class="step-subtitle">Do you have any documents (PDFs, Docs) that describe your company?</p>
             <div class="input-group">
-                <label>Upload documents</label>
                 <div class="drop-zone">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.3;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                     <br>
                     <span>Drag & drop or <span class="highlight" style="color: var(--primary); font-weight: 600;">browse files</span></span>
                 </div>
             </div>
-            
-            <div class="input-group">
-                <label for="kb-website">Add website link</label>
-                <input type="url" id="kb-website" placeholder="https://docs.acme.com" class="input-field">
-            </div>
+        </div>
+    </template>
 
-            <div class="integration-card">
-                <div class="integration-header">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    <strong>Upload Sales Assets (Optional)</strong>
-                </div>
-                <p class="micro-note">Files to be sent to clients (profiles, certificates, etc.)</p>
-                <button class="btn btn-secondary mt-3">Upload Assets</button>
+    <!-- Step 4: Knowledge Brain (Links) -->
+    <template id="tpl-step-4">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Perfect. Any other links I should read? 🔗</h3>
+            <p class="step-subtitle">Helpful for documentation, blogs, or case studies.</p>
+            <div class="input-group">
+                <label for="kb-website">Add a link</label>
+                <input type="url" id="kb-website" placeholder="https://docs.acme.com" class="input-field">
             </div>
         </div>
     </template>
 
-    <!-- Step 3: Service Catalog -->
-    <template id="tpl-step-3">
+    <!-- Step 5: Service Catalog -->
+    <template id="tpl-step-5">
         <div class="step-content fade-in">
-            <h3 class="step-title">What services do you offer?</h3>
-            <p class="step-subtitle">This helps your AI agent answer with accurate pricing and offerings.</p>
-            
+            <h3 class="step-title">How about your services or pricing? 💰</h3>
+            <p class="step-subtitle">Upload your catalog so I can answer pricing questions accurately.</p>
             <div class="input-group">
-                <label>Upload service catalog / pricing sheet</label>
                 <div class="drop-zone" style="padding: 60px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px; opacity: 0.3;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                     <br>
-                    <span>Upload CSV or PDF</span>
+                    <span>Upload CSV, PDF or Excel</span>
                 </div>
             </div>
         </div>
     </template>
 
-    <!-- Step 4: Agent Persona -->
-    <template id="tpl-step-4">
+    <!-- Step 6: Agent Persona -->
+    <template id="tpl-step-6">
         <div class="step-content fade-in">
-            <h3 class="step-title">Describe your goal ✨</h3>
-            <p class="step-subtitle">Tell me what you want to achieve, and I’ll create the perfect agent.</p>
-            
+            <h3 class="step-title">Almost there! What's your goal for this agent? ✨</h3>
+            <p class="step-subtitle">Describe what you want me to achieve (e.g., Book meetings, answer support).</p>
             <div class="input-group">
                 <textarea id="agent-goal" class="input-field" rows="4" placeholder="e.g. I want to book qualified meetings for our cloud security platform..."></textarea>
             </div>
-
             <div id="ai-persona-result" class="hidden fade-in">
                 <div class="editable-cards">
                     <div class="edit-card">
@@ -163,16 +152,8 @@
                         <span class="card-label">Tone</span>
                         <input type="text" class="card-value" id="persona-tone" value="Professional & Friendly">
                     </div>
-                    <div class="edit-card">
-                        <span class="card-label">Style</span>
-                        <input type="text" class="card-value" id="persona-style" value="Detailed & Precise">
-                    </div>
-                    <div class="edit-card">
-                        <span class="card-label">Gender</span>
-                        <input type="text" class="card-value" id="persona-gender" value="Neutral">
-                    </div>
                 </div>
-                <div class="input-group">
+                <div class="input-group mt-4">
                     <label>Internal Instructions</label>
                     <textarea class="input-field" rows="3" id="persona-instructions"></textarea>
                 </div>
@@ -180,49 +161,45 @@
         </div>
     </template>
 
-    <!-- Step 5: Support Contact -->
-    <template id="tpl-step-5">
+    <!-- Step 7: Leads Setup -->
+    <template id="tpl-step-7">
         <div class="step-content fade-in">
-            <h3 class="step-title">Who should we contact for human support?</h3>
-            <p class="step-subtitle">If the AI can’t handle a request, it will forward it to this person.</p>
-            
-            <div class="input-group">
-                <label for="support-name">Support Member Name</label>
-                <input type="text" id="support-name" placeholder="Sarah Connor" class="input-field">
-            </div>
-            
-            <div class="input-group">
-                <label for="support-email">Support Email</label>
-                <input type="email" id="support-email" placeholder="sarah@acme.com" class="input-field">
-            </div>
-        </div>
-    </template>
-
-    <!-- Step 6: Leads Setup -->
-    <template id="tpl-step-6">
-        <div class="step-content fade-in">
-            <h3 class="step-title">Do you want to add your leads now?</h3>
-            <p class="step-subtitle">You can start your first campaign immediately after this.</p>
-            
+            <h3 class="step-title">Who are we reaching out to? 🎯</h3>
+            <p class="step-subtitle">Select how you want to add your first batch of leads.</p>
             <div class="selection-options">
                 <label class="option-card" data-option="upload">
                     <div class="option-content">
                         <strong>Upload lead file</strong>
-                        <span>CSV with name, company, and contact</span>
+                        <span>CSV with name and contact</span>
                     </div>
                 </label>
                 <label class="option-card" data-option="manual">
                     <div class="option-content">
                         <strong>Add manually</strong>
-                        <span>Type in lead details one by one</span>
+                        <span>Type in lead details</span>
                     </div>
                 </label>
                 <label class="option-card" data-option="skip">
                     <div class="option-content">
                         <strong>Skip for now</strong>
-                        <span>You can add them from the dashboard later</span>
+                        <span>Add them later from dashboard</span>
                     </div>
                 </label>
+            </div>
+        </div>
+    </template>
+
+    <!-- Step 8: Apollo Integration -->
+    <template id="tpl-step-8">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Finally, want to connect Apollo? (Optional) 🚀</h3>
+            <p class="step-subtitle">This helps in finding more high-quality leads automatically.</p>
+            <div class="integration-card">
+                <div class="input-group">
+                    <label for="apollo-key">Apollo API Key</label>
+                    <input type="password" id="apollo-key" placeholder="Paste your API key here" class="input-field">
+                </div>
+                <button class="btn btn-primary mt-2" id="test-apollo-btn">Test Connection</button>
             </div>
         </div>
     </template>
@@ -231,13 +208,11 @@
     <template id="tpl-step-final">
         <div class="step-content fade-in success-state">
             <div class="success-icon">🚀</div>
-            <h3 class="step-title">Your AI agent is ready!</h3>
-            <p class="step-subtitle">Nice choice 👌 You’re almost ready!</p>
-            
+            <h3 class="step-title">You're all set, and you're doing great!</h3>
+            <p class="step-subtitle">Your AI agent is now trained and ready to fly.</p>
             <div class="final-actions">
-                <button class="btn btn-primary w-full" id="finish-generate">Generate Strategy</button>
+                <button class="btn btn-primary w-full" id="finish-generate">Generate Campaign</button>
                 <button class="btn btn-secondary w-full mt-2" id="finish-dashboard">Go to Dashboard</button>
-                <p class="micro-note mt-3">You can fine-tune how your AI responds anytime based on client intent.</p>
             </div>
         </div>
     </template>

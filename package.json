@@ -1,7 +1,7 @@
 {
-  "name": "wap-onboarding-agent",
+  "name": "alex-onboarding-agent",
   "version": "1.0.0",
-  "description": "AI-powered onboarding assistant for WAP Product",
+  "description": "AI-powered onboarding assistant for Alex (AI Sales Agent platform)",
   "main": "index.html",
   "scripts": {
     "start": "serve ."
