@@ -11,12 +11,6 @@
 </head>
 <body>
 
-    <!-- Widget Trigger -->
-    <button id="widget-trigger" class="widget-trigger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        <span>Setup Agent</span>
-    </button>
-
     <!-- Modal Overlay -->
     <div id="panel-overlay" class="panel-overlay"></div>
 
@@ -24,7 +18,10 @@
     <div id="assistant-panel" class="assistant-panel">
         <div class="panel-header">
             <div class="header-content">
-                <div class="alex-logo">Alex</div>
+                <div class="alex-logo-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="robot-icon"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    <span class="alex-text">Alex</span>
+                </div>
                 <div class="header-text">
                     <h2>AI Setup Assistant</h2>
                     <p>Let’s build your AI sales agent in minutes</p>
@@ -60,8 +57,8 @@
         <div class="panel-footer">
             <button id="back-btn" class="btn btn-tertiary" style="visibility: hidden;">Back</button>
             <div class="right-actions">
-                <button id="skip-btn" class="btn btn-secondary">Skip</button>
-                <button id="continue-btn" class="btn btn-primary">Continue</button>
+                <button id="skip-btn" class="btn btn-secondary">Do this later</button>
+                <button id="continue-btn" class="btn btn-primary">Next Step</button>
             </div>
         </div>
     </div>
@@ -90,7 +87,7 @@
                     <p class="micro-note">Found in Apollo settings. No spaces allowed.</p>
                 </div>
                 <div class="flex gap-2 mt-4">
-                    <button class="btn btn-primary btn-sm">Connect now</button>
+                    <button class="btn btn-primary">Connect now</button>
                 </div>
             </div>
         </div>
@@ -104,8 +101,10 @@
             
             <div class="input-group">
                 <label>Upload documents</label>
-                <div class="drop-zone input-field" style="border-style: dashed; text-align: center; padding: 30px;">
-                    <span>Drag & drop or <span class="highlight">browse files</span></span>
+                <div class="drop-zone">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.3;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    <br>
+                    <span>Drag & drop or <span class="highlight" style="color: var(--primary); font-weight: 600;">browse files</span></span>
                 </div>
             </div>
             
@@ -120,7 +119,7 @@
                     <strong>Upload Sales Assets (Optional)</strong>
                 </div>
                 <p class="micro-note">Files to be sent to clients (profiles, certificates, etc.)</p>
-                <button class="btn btn-secondary btn-sm mt-3">Upload Assets</button>
+                <button class="btn btn-secondary mt-3">Upload Assets</button>
             </div>
         </div>
     </template>
@@ -133,8 +132,8 @@
             
             <div class="input-group">
                 <label>Upload service catalog / pricing sheet</label>
-                <div class="drop-zone input-field" style="border-style: dashed; text-align: center; padding: 40px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.5;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                <div class="drop-zone" style="padding: 60px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 16px; opacity: 0.3;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
                     <br>
                     <span>Upload CSV or PDF</span>
                 </div>
@@ -235,8 +234,8 @@
             
             <div class="final-actions">
                 <button class="btn btn-primary w-full" id="finish-generate">Generate Strategy</button>
-                <button class="btn btn-secondary w-full" id="finish-dashboard">Go to Dashboard</button>
-                <p class="micro-note mt-2">You can fine-tune how your AI responds based on client intent anytime.</p>
+                <button class="btn btn-secondary w-full mt-2" id="finish-dashboard">Go to Dashboard</button>
+                <p class="micro-note mt-3">You can fine-tune how your AI responds anytime based on client intent.</p>
             </div>
         </div>
     </template>

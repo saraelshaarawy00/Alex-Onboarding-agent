@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Elements ---
-    const widgetTrigger = document.getElementById('widget-trigger');
     const panelOverlay = document.getElementById('panel-overlay');
     const assistantPanel = document.getElementById('assistant-panel');
     const closePanelBtn = document.getElementById('close-panel');
@@ -79,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearThinking();
         
         // Reset defaults
-        continueBtn.innerText = 'Continue';
+        continueBtn.innerText = 'Next Step';
         continueBtn.style.display = 'inline-block';
         continueBtn.disabled = false;
         skipBtn.style.display = (step === 1 || step > 6) ? 'none' : 'inline-block';
@@ -177,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Fake AI data
                         const persona = {
                             name: 'Alex',
-                            tone: 'Friendly but authoritative',
+                            tone: 'Professional & Friendly',
                             style: 'Modern & Quick',
                             gender: 'Neutral/Professional',
                             instructions: `Focus on ${userData.companyName}'s USP. Be helpful and drive meetings.`
@@ -194,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         // Smart microcopy
                         const hint = document.createElement('p');
-                        hint.className = 'micro-note fade-in';
+                        hint.className = 'micro-note fade-in mt-2';
                         hint.innerText = 'Nice choice 👌 You can edit these if needed.';
                         resultArea.prepend(hint);
                     }, 1500);
@@ -276,10 +275,9 @@ document.addEventListener('DOMContentLoaded', () => {
         assistantPanel.classList.remove('open');
     };
 
-    widgetTrigger.addEventListener('click', openPanel);
     closePanelBtn.addEventListener('click', closePanel);
     panelOverlay.addEventListener('click', closePanel);
 
-    // Initial Trigger
-    setTimeout(openPanel, 1000); // Auto-open for new users
+    // Initial Trigger - Immediate auto-open
+    openPanel();
 });
