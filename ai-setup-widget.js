@@ -106,22 +106,28 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFields.appendChild(templates[1].content.cloneNode(true));
         const nameInput = document.getElementById('company-name');
         const urlInput = document.getElementById('website-url');
+        const inlineNextBtn = document.getElementById('step-1-next-inline');
         
         nameInput.value = userData.companyName;
         urlInput.value = userData.url;
 
         const validate = () => {
-            continueBtn.disabled = !nameInput.value.trim() || !urlInput.value.trim();
+            const isValid = nameInput.value.trim() && urlInput.value.trim();
+            continueBtn.disabled = !isValid;
+            if (inlineNextBtn) inlineNextBtn.disabled = !isValid;
+        };
+
+        const handleNext = () => {
+            showThinking('Saving profile...');
+            setTimeout(() => renderStep(2), 800);
         };
 
         nameInput.addEventListener('input', (e) => { userData.companyName = e.target.value; validate(); });
         urlInput.addEventListener('input', (e) => { userData.url = e.target.value; validate(); });
         
         validate();
-        continueBtn.onclick = () => {
-            showThinking('Saving profile...');
-            setTimeout(() => renderStep(2), 800);
-        };
+        continueBtn.onclick = handleNext;
+        if (inlineNextBtn) inlineNextBtn.onclick = handleNext;
     };
 
     // Step 2: Knowledge Sources

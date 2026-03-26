@@ -79,7 +79,7 @@
             <div class="integration-card">
                 <div class="integration-header">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
-                    <strong>Connect your Apollo account</strong>
+                    <strong>Connect your Apollo account (Optional)</strong>
                 </div>
                 <div class="input-group">
                     <label for="apollo-key">API Key</label>
@@ -87,9 +87,11 @@
                     <p class="micro-note">Found in Apollo settings. No spaces allowed.</p>
                 </div>
                 <div class="flex gap-2 mt-4">
-                    <button class="btn btn-primary">Connect now</button>
+                    <button class="btn btn-secondary w-full" id="connect-apollo-btn">Connect now</button>
                 </div>
             </div>
+            <!-- Extra visible button for high-discovery -->
+            <button class="btn btn-primary btn-lg w-full mt-4" id="step-1-next-inline">Next Step</button>
         </div>
     </template>
 
