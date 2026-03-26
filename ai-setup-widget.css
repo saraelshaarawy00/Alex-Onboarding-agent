@@ -63,12 +63,12 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 95%;
-    max-width: 680px; /* Increased from 580px */
-    height: 720px; /* Increased from 680px */
+    max-width: 850px; /* Increased from 680px */
+    height: 800px; /* Increased from 720px */
     max-height: 95vh;
     background: var(--bg-panel);
     border: 1px solid var(--border);
-    border-radius: 28px;
+    border-radius: 32px;
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-lg);
