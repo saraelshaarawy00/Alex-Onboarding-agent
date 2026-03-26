@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Setup Assistant | SaaS Onboarding</title>
+    <title>Alex | AI Sales Agent Onboarding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,25 +11,23 @@
 </head>
 <body>
 
-    <!-- Widget Trigger Button (Optional for now, but keeping for direct access) -->
+    <!-- Widget Trigger -->
     <button id="widget-trigger" class="widget-trigger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        <span>Setup Project</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        <span>Setup Agent</span>
     </button>
 
     <!-- Modal Overlay -->
     <div id="panel-overlay" class="panel-overlay"></div>
 
-    <!-- AI Setup Assistant Centered Modal -->
+    <!-- AI Setup Assistant Modal -->
     <div id="assistant-panel" class="assistant-panel">
         <div class="panel-header">
             <div class="header-content">
-                <div class="ai-avatar">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-sparkle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                </div>
+                <div class="alex-logo">Alex</div>
                 <div class="header-text">
                     <h2>AI Setup Assistant</h2>
-                    <p>Let’s get your website ready for translation</p>
+                    <p>Let’s build your AI sales agent in minutes</p>
                 </div>
             </div>
             <button id="close-panel" class="close-btn" aria-label="Close panel">
@@ -48,11 +46,13 @@
                 <div id="step-4" class="step-indicator"><span>4</span></div>
                 <div class="step-line"></div>
                 <div id="step-5" class="step-indicator"><span>5</span></div>
+                <div class="step-line"></div>
+                <div id="step-6" class="step-indicator"><span>6</span></div>
             </div>
         </div>
 
         <div id="main-content" class="main-content">
-            <!-- Dynamic step content will be loaded here -->
+            <!-- Dynamic step content -->
             <div id="ai-response-area" class="ai-response-area"></div>
             <div id="dynamic-fields" class="dynamic-fields"></div>
         </div>
@@ -61,126 +61,167 @@
             <button id="back-btn" class="btn btn-tertiary" style="visibility: hidden;">Back</button>
             <div class="right-actions">
                 <button id="skip-btn" class="btn btn-secondary">Skip</button>
-                <button id="continue-btn" class="btn btn-primary" disabled>Continue</button>
+                <button id="continue-btn" class="btn btn-primary">Continue</button>
             </div>
         </div>
     </div>
 
-    <!-- Templates for different steps -->
-    
-    <!-- Step 1: Website Input -->
+    <!-- Step 1: Company Profile -->
     <template id="tpl-step-1">
         <div class="step-content fade-in">
-            <h3 class="step-title">Start by adding your website link</h3>
+            <h3 class="step-title">Let’s start with your company 👀</h3>
+            <div class="input-group">
+                <label for="company-name">Company Name</label>
+                <input type="text" id="company-name" placeholder="Acme Inc." class="input-field">
+            </div>
             <div class="input-group">
                 <label for="website-url">Website URL</label>
-                <input type="url" id="website-url" placeholder="https://yourwebsite.com" class="input-field">
+                <input type="url" id="website-url" placeholder="https://acme.com" class="input-field">
             </div>
-            <div class="input-group">
-                <label for="reference-url">Reference website (optional)</label>
-                <input type="url" id="reference-url" placeholder="https://competitor.com" class="input-field">
-            </div>
-            <div class="step-actions">
-                <button id="step-1-next" class="btn btn-primary btn-lg" disabled>Analyze Website</button>
+            
+            <div class="integration-card">
+                <div class="integration-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                    <strong>Connect your Apollo account</strong>
+                </div>
+                <div class="input-group">
+                    <label for="apollo-key">API Key</label>
+                    <input type="password" id="apollo-key" placeholder="Paste your API key here" class="input-field">
+                    <p class="micro-note">Found in Apollo settings. No spaces allowed.</p>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button class="btn btn-primary btn-sm">Connect now</button>
+                </div>
             </div>
         </div>
     </template>
 
-    <!-- Step 2: AI Detection -->
+    <!-- Step 2: Knowledge Sources -->
     <template id="tpl-step-2">
         <div class="step-content fade-in">
-            <h3 class="step-title">Based on your website, here’s what I found 👀</h3>
-            <div class="detection-cards">
-                <div class="detection-card">
-                    <span class="card-label">Industry</span>
-                    <input type="text" id="detected-industry" class="editable-field" value="E-commerce">
-                </div>
-                <div class="detection-card">
-                    <span class="card-label">Target Audience</span>
-                    <input type="text" id="detected-audience" class="editable-field" value="Businesses">
+            <h3 class="step-title">Now let’s give your AI agent the knowledge it needs 🧠</h3>
+            <p class="step-subtitle">This helps your AI agent understand your company like a trained employee.</p>
+            
+            <div class="input-group">
+                <label>Upload documents</label>
+                <div class="drop-zone input-field" style="border-style: dashed; text-align: center; padding: 30px;">
+                    <span>Drag & drop or <span class="highlight">browse files</span></span>
                 </div>
             </div>
-            <p class="micro-note">You can edit these if they're not quite right.</p>
-            <div class="step-actions">
-                <button id="step-2-next" class="btn btn-primary btn-lg">Looks good, Next</button>
+            
+            <div class="input-group">
+                <label for="kb-website">Add website link</label>
+                <input type="url" id="kb-website" placeholder="https://docs.acme.com" class="input-field">
+            </div>
+
+            <div class="integration-card">
+                <div class="integration-header">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accent"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <strong>Upload Sales Assets (Optional)</strong>
+                </div>
+                <p class="micro-note">Files to be sent to clients (profiles, certificates, etc.)</p>
+                <button class="btn btn-secondary btn-sm mt-3">Upload Assets</button>
             </div>
         </div>
     </template>
 
-    <!-- Step 3: Languages -->
+    <!-- Step 3: Service Catalog -->
     <template id="tpl-step-3">
         <div class="step-content fade-in">
-            <h3 class="step-title">Your website is in <span class="highlight">English</span></h3>
-            <p class="step-subtitle">Which languages do you want to translate to?</p>
-            <div id="chips-container" class="chips-container">
-                <!-- Chips will be generated here -->
-            </div>
-            <div class="smart-suggestion">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spark-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-                <span>We recommend <strong>Arabic</strong> based on your audience</span>
-            </div>
-            <div class="step-actions">
-                <button id="step-3-next" class="btn btn-primary btn-lg" disabled>Continue to Pages</button>
+            <h3 class="step-title">What services do you offer?</h3>
+            <p class="step-subtitle">This helps your AI agent answer with accurate pricing and offerings.</p>
+            
+            <div class="input-group">
+                <label>Upload service catalog / pricing sheet</label>
+                <div class="drop-zone input-field" style="border-style: dashed; text-align: center; padding: 40px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 12px; opacity: 0.5;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                    <br>
+                    <span>Upload CSV or PDF</span>
+                </div>
             </div>
         </div>
     </template>
 
-    <!-- Step 4: Pages Selection -->
+    <!-- Step 4: Agent Persona -->
     <template id="tpl-step-4">
         <div class="step-content fade-in">
-            <h3 class="step-title">We found multiple pages on your website</h3>
-            <div class="selection-options">
-                <label class="option-card active" data-option="all">
-                    <input type="radio" name="page-selection" value="all" checked>
-                    <div class="option-content">
-                        <strong>Translate all pages</strong>
-                        <span>Recommended for full coverage</span>
-                    </div>
-                </label>
-                <label class="option-card" data-option="specific">
-                    <input type="radio" name="page-selection" value="specific">
-                    <div class="option-content">
-                        <strong>Choose specific pages</strong>
-                        <span>Select only the pages you need</span>
-                    </div>
-                </label>
+            <h3 class="step-title">Describe your goal ✨</h3>
+            <p class="step-subtitle">Tell me what you want to achieve, and I’ll create the perfect agent.</p>
+            
+            <div class="input-group">
+                <textarea id="agent-goal" class="input-field" rows="4" placeholder="e.g. I want to book qualified meetings for our cloud security platform..."></textarea>
             </div>
-            <div id="pages-checklist" class="pages-checklist hidden">
-                <div class="page-item">
-                    <span>Home (/)</span>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+
+            <div id="ai-persona-result" class="hidden fade-in">
+                <div class="editable-cards">
+                    <div class="edit-card">
+                        <span class="card-label">Name</span>
+                        <input type="text" class="card-value" id="persona-name" value="Alex">
+                    </div>
+                    <div class="edit-card">
+                        <span class="card-label">Tone</span>
+                        <input type="text" class="card-value" id="persona-tone" value="Professional & Friendly">
+                    </div>
+                    <div class="edit-card">
+                        <span class="card-label">Style</span>
+                        <input type="text" class="card-value" id="persona-style" value="Detailed & Precise">
+                    </div>
+                    <div class="edit-card">
+                        <span class="card-label">Gender</span>
+                        <input type="text" class="card-value" id="persona-gender" value="Neutral">
+                    </div>
                 </div>
-                <div class="page-item">
-                    <span>Pricing (/pricing)</span>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                <div class="input-group">
+                    <label>Internal Instructions</label>
+                    <textarea class="input-field" rows="3" id="persona-instructions"></textarea>
                 </div>
-                <div class="page-item">
-                    <span>About (/about)</span>
-                    <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
-                </div>
-            </div>
-            <div class="step-actions">
-                <button id="step-4-next" class="btn btn-primary btn-lg">Continue to Script</button>
             </div>
         </div>
     </template>
 
-    <!-- Step 5: Script Installation -->
+    <!-- Step 5: Support Contact -->
     <template id="tpl-step-5">
         <div class="step-content fade-in">
-            <h3 class="step-title">Install the language switcher</h3>
-            <p class="step-subtitle">To show the language switcher on your website, you’ll need to add this small script.</p>
-            <div class="code-block-container">
-                <div class="code-header">
-                    <span>Javascript Snippet</span>
-                    <button id="copy-script-btn" class="copy-btn">Copy</button>
-                </div>
-                <pre><code>&lt;script src="https://cdn.wap-translate.com/widget.js" data-project="WP-782" async&gt;&lt;/script&gt;</code></pre>
+            <h3 class="step-title">Who should we contact for human support?</h3>
+            <p class="step-subtitle">If the AI can’t handle a request, it will forward it to this person.</p>
+            
+            <div class="input-group">
+                <label for="support-name">Support Member Name</label>
+                <input type="text" id="support-name" placeholder="Sarah Connor" class="input-field">
             </div>
-            <p class="micro-note">Paste it into your website once (like in your main layout), and it will appear across your whole website.</p>
-            <div class="step-actions">
-                <button id="step-5-next" class="btn btn-primary btn-lg">Copy Script & Finish</button>
-                <button id="step-5-skip" class="btn btn-secondary">I'll do this later</button>
+            
+            <div class="input-group">
+                <label for="support-email">Support Email</label>
+                <input type="email" id="support-email" placeholder="sarah@acme.com" class="input-field">
+            </div>
+        </div>
+    </template>
+
+    <!-- Step 6: Leads Setup -->
+    <template id="tpl-step-6">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Do you want to add your leads now?</h3>
+            <p class="step-subtitle">You can start your first campaign immediately after this.</p>
+            
+            <div class="selection-options">
+                <label class="option-card" data-option="upload">
+                    <div class="option-content">
+                        <strong>Upload lead file</strong>
+                        <span>CSV with name, company, and contact</span>
+                    </div>
+                </label>
+                <label class="option-card" data-option="manual">
+                    <div class="option-content">
+                        <strong>Add manually</strong>
+                        <span>Type in lead details one by one</span>
+                    </div>
+                </label>
+                <label class="option-card" data-option="skip">
+                    <div class="option-content">
+                        <strong>Skip for now</strong>
+                        <span>You can add them from the dashboard later</span>
+                    </div>
+                </label>
             </div>
         </div>
     </template>
@@ -189,20 +230,22 @@
     <template id="tpl-step-final">
         <div class="step-content fade-in success-state">
             <div class="success-icon">🚀</div>
-            <h3 class="step-title">You're all set!</h3>
-            <p class="step-subtitle">You can always come back and edit your setup anytime.</p>
+            <h3 class="step-title">Your AI agent is ready!</h3>
+            <p class="step-subtitle">Nice choice 👌 You’re almost ready!</p>
+            
             <div class="final-actions">
-                <button class="btn btn-primary w-full" id="finish-go-project">Go to my project</button>
-                <button class="btn btn-secondary w-full" id="finish-copy-script">Copy script and install manually</button>
+                <button class="btn btn-primary w-full" id="finish-generate">Generate Strategy</button>
+                <button class="btn btn-secondary w-full" id="finish-dashboard">Go to Dashboard</button>
+                <p class="micro-note mt-2">You can fine-tune how your AI responds based on client intent anytime.</p>
             </div>
         </div>
     </template>
 
-    <!-- AI Thinking/Analyzing Component -->
+    <!-- AI Thinking Template -->
     <template id="tpl-ai-thinking">
-        <div class="ai-thinking fade-in">
+        <div class="ai-thinking">
             <div class="thinking-dots"><span></span><span></span><span></span></div>
-            <span id="thinking-text">Analyzing your website...</span>
+            <span id="thinking-text">Analyzing...</span>
         </div>
     </template>
 

@@ -4,9 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelOverlay = document.getElementById('panel-overlay');
     const assistantPanel = document.getElementById('assistant-panel');
     const closePanelBtn = document.getElementById('close-panel');
-    const mainContent = document.getElementById('main-content');
-    const aiResponseArea = document.getElementById('ai-response-area');
     const dynamicFields = document.getElementById('dynamic-fields');
+    const aiResponseArea = document.getElementById('ai-response-area');
     
     // Controls
     const continueBtn = document.getElementById('continue-btn');
@@ -14,32 +13,40 @@ document.addEventListener('DOMContentLoaded', () => {
     const backBtn = document.getElementById('back-btn');
     
     // Templates
-    const tplStep1 = document.getElementById('tpl-step-1');
-    const tplStep2 = document.getElementById('tpl-step-2');
-    const tplStep3 = document.getElementById('tpl-step-3');
-    const tplStep4 = document.getElementById('tpl-step-4');
-    const tplStep5 = document.getElementById('tpl-step-5');
-    const tplStepFinal = document.getElementById('tpl-step-final');
-    const tplAiThinking = document.getElementById('tpl-ai-thinking');
+    const templates = {
+        1: document.getElementById('tpl-step-1'),
+        2: document.getElementById('tpl-step-2'),
+        3: document.getElementById('tpl-step-3'),
+        4: document.getElementById('tpl-step-4'),
+        5: document.getElementById('tpl-step-5'),
+        6: document.getElementById('tpl-step-6'),
+        final: document.getElementById('tpl-step-final'),
+        thinking: document.getElementById('tpl-ai-thinking')
+    };
 
     // --- State ---
     let currentStep = 1;
     let userData = {
+        companyName: '',
         url: '',
-        reference: '',
-        industry: 'E-commerce',
-        audience: 'Businesses',
-        sourceLang: 'English',
-        targetLanguages: [],
-        pageSelection: 'all'
+        apolloKey: '',
+        agentGoal: '',
+        persona: {
+            name: 'Alex',
+            tone: 'Professional',
+            style: 'Direct',
+            gender: 'Neutral',
+            instructions: ''
+        },
+        supportName: '',
+        supportEmail: '',
+        leadsMethod: ''
     };
-
-    const languagesList = ['Arabic', 'French', 'Spanish', 'German', 'Italian', 'Japanese', 'Chinese', 'Portuguese', 'Russian'];
 
     // --- Helpers ---
     const showThinking = (text) => {
         aiResponseArea.innerHTML = '';
-        const thinking = tplAiThinking.content.cloneNode(true);
+        const thinking = templates.thinking.content.cloneNode(true);
         thinking.querySelector('#thinking-text').innerText = text;
         aiResponseArea.appendChild(thinking);
     };
@@ -61,10 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const toggleBackBtn = (step) => {
-        backBtn.style.visibility = step > 1 && step <= 5 ? 'visible' : 'hidden';
+        backBtn.style.visibility = (step > 1 && step <= 6) ? 'visible' : 'hidden';
     };
-
-    // --- Steps Implementation ---
 
     const renderStep = (step) => {
         currentStep = step;
@@ -73,11 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicFields.innerHTML = '';
         clearThinking();
         
-        // Reset buttons defaults
+        // Reset defaults
         continueBtn.innerText = 'Continue';
         continueBtn.style.display = 'inline-block';
-        skipBtn.style.display = (step === 5 || step === 6) ? 'none' : 'inline-block';
         continueBtn.disabled = false;
+        skipBtn.style.display = (step === 1 || step > 6) ? 'none' : 'inline-block';
+        skipBtn.innerText = 'Do this later';
+
+        if (step === 7) {
+            initStepFinal();
+            return;
+        }
 
         switch(step) {
             case 1: initStep1(); break;
@@ -85,177 +96,160 @@ document.addEventListener('DOMContentLoaded', () => {
             case 3: initStep3(); break;
             case 4: initStep4(); break;
             case 5: initStep5(); break;
-            case 6: initStepFinal(); break;
+            case 6: initStep6(); break;
         }
     };
 
-    // Step 1: Website Input
+    // --- Step Implementations ---
+
+    // Step 1: Company Profile
     const initStep1 = () => {
-        dynamicFields.appendChild(tplStep1.content.cloneNode(true));
+        dynamicFields.appendChild(templates[1].content.cloneNode(true));
+        const nameInput = document.getElementById('company-name');
         const urlInput = document.getElementById('website-url');
-        const refInput = document.getElementById('reference-url');
-        const step1Next = document.getElementById('step-1-next');
         
+        nameInput.value = userData.companyName;
         urlInput.value = userData.url;
-        refInput.value = userData.reference;
 
         const validate = () => {
-            const isValid = urlInput.value.trim().includes('.');
-            continueBtn.disabled = !isValid;
-            step1Next.disabled = !isValid;
+            continueBtn.disabled = !nameInput.value.trim() || !urlInput.value.trim();
         };
 
-        urlInput.addEventListener('input', validate);
+        nameInput.addEventListener('input', (e) => { userData.companyName = e.target.value; validate(); });
+        urlInput.addEventListener('input', (e) => { userData.url = e.target.value; validate(); });
+        
         validate();
-
-        const handleNext = () => {
-            userData.url = urlInput.value.trim();
-            userData.reference = refInput.value.trim();
-            
-            showThinking('Analyzing your website...');
-            dynamicFields.innerHTML = '';
-            continueBtn.disabled = true;
-            
-            setTimeout(() => {
-                renderStep(2);
-            }, 1800);
+        continueBtn.onclick = () => {
+            showThinking('Saving profile...');
+            setTimeout(() => renderStep(2), 800);
         };
-
-        continueBtn.onclick = handleNext;
-        step1Next.onclick = handleNext;
     };
 
-    // Step 2: AI Detection
+    // Step 2: Knowledge Sources
     const initStep2 = () => {
-        dynamicFields.appendChild(tplStep2.content.cloneNode(true));
-        const industryInput = document.getElementById('detected-industry');
-        const audienceInput = document.getElementById('detected-audience');
-        const step2Next = document.getElementById('step-2-next');
-        
-        industryInput.value = userData.industry;
-        audienceInput.value = userData.audience;
-
-        industryInput.addEventListener('input', (e) => userData.industry = e.target.value);
-        audienceInput.addEventListener('input', (e) => userData.audience = e.target.value);
-
-        continueBtn.innerText = 'Looks good';
-        
-        const handleNext = () => renderStep(3);
-        continueBtn.onclick = handleNext;
-        step2Next.onclick = handleNext;
+        dynamicFields.appendChild(templates[2].content.cloneNode(true));
+        continueBtn.onclick = () => {
+            showThinking('Indexing sources...');
+            setTimeout(() => renderStep(3), 1000);
+        };
     };
 
-    // Step 3: Languages
+    // Step 3: Service Catalog
     const initStep3 = () => {
-        dynamicFields.appendChild(tplStep3.content.cloneNode(true));
-        const chipsContainer = document.getElementById('chips-container');
-        const step3Next = document.getElementById('step-3-next');
-        
-        languagesList.forEach(lang => {
-            const chip = document.createElement('div');
-            chip.className = 'chip' + (userData.targetLanguages.includes(lang) ? ' selected' : '');
-            chip.innerText = lang;
-            chip.onclick = () => {
-                chip.classList.toggle('selected');
-                if (chip.classList.contains('selected')) {
-                    userData.targetLanguages.push(lang);
-                } else {
-                    userData.targetLanguages = userData.targetLanguages.filter(l => l !== lang);
-                }
-                validate();
-            };
-            chipsContainer.appendChild(chip);
-        });
-
-        const validate = () => {
-            const isValid = userData.targetLanguages.length > 0;
-            continueBtn.disabled = !isValid;
-            step3Next.disabled = !isValid;
+        dynamicFields.appendChild(templates[3].content.cloneNode(true));
+        continueBtn.onclick = () => {
+            showThinking('Processing catalog...');
+            setTimeout(() => renderStep(4), 800);
         };
-        validate();
-
-        const handleNext = () => {
-            showThinking('Detecting pages...');
-            dynamicFields.innerHTML = '';
-            continueBtn.disabled = true;
-            setTimeout(() => renderStep(4), 1200);
-        };
-        continueBtn.onclick = handleNext;
-        step3Next.onclick = handleNext;
     };
 
-    // Step 4: Page Selection
+    // Step 4: Agent Persona (AI Magic ✨)
     const initStep4 = () => {
-        dynamicFields.appendChild(tplStep4.content.cloneNode(true));
-        const optionCards = document.querySelectorAll('.option-card');
-        const checklist = document.getElementById('pages-checklist');
-        const step4Next = document.getElementById('step-4-next');
+        dynamicFields.appendChild(templates[4].content.cloneNode(true));
+        const goalInput = document.getElementById('agent-goal');
+        const resultArea = document.getElementById('ai-persona-result');
+        
+        goalInput.value = userData.agentGoal;
+        
+        if (userData.agentGoal) {
+            resultArea.classList.remove('hidden');
+            continueBtn.innerText = 'Looks good';
+        } else {
+            continueBtn.innerText = 'Generate Agent';
+            continueBtn.disabled = true;
+        }
 
-        const updateUI = (val) => {
-            userData.pageSelection = val;
-            optionCards.forEach(card => {
-                card.classList.toggle('active', card.getAttribute('data-option') === val);
-                card.querySelector('input').checked = (card.getAttribute('data-option') === val);
-            });
-            checklist.classList.toggle('hidden', val !== 'specific');
-        };
-
-        optionCards.forEach(card => {
-            card.onclick = () => updateUI(card.getAttribute('data-option'));
+        goalInput.addEventListener('input', (e) => {
+            userData.agentGoal = e.target.value;
+            continueBtn.disabled = !e.target.value.trim();
         });
 
-        updateUI(userData.pageSelection);
-
-        const handleNext = () => renderStep(5);
-        continueBtn.onclick = handleNext;
-        step4Next.onclick = handleNext;
+        continueBtn.onclick = () => {
+            if (resultArea.classList.contains('hidden')) {
+                // Generate magic
+                showThinking('Analyzing your goals...');
+                setTimeout(() => {
+                    showThinking('Building your perfect agent...');
+                    setTimeout(() => {
+                        clearThinking();
+                        resultArea.classList.remove('hidden');
+                        
+                        // Fake AI data
+                        const persona = {
+                            name: 'Alex',
+                            tone: 'Friendly but authoritative',
+                            style: 'Modern & Quick',
+                            gender: 'Neutral/Professional',
+                            instructions: `Focus on ${userData.companyName}'s USP. Be helpful and drive meetings.`
+                        };
+                        
+                        document.getElementById('persona-name').value = persona.name;
+                        document.getElementById('persona-tone').value = persona.tone;
+                        document.getElementById('persona-style').value = persona.style;
+                        document.getElementById('persona-gender').value = persona.gender;
+                        document.getElementById('persona-instructions').value = persona.instructions;
+                        
+                        continueBtn.innerText = 'Looks good';
+                        continueBtn.disabled = false;
+                        
+                        // Smart microcopy
+                        const hint = document.createElement('p');
+                        hint.className = 'micro-note fade-in';
+                        hint.innerText = 'Nice choice 👌 You can edit these if needed.';
+                        resultArea.prepend(hint);
+                    }, 1500);
+                }, 1000);
+            } else {
+                renderStep(5);
+            }
+        };
     };
 
-    // Step 5: Script Installation
+    // Step 5: Support Contact
     const initStep5 = () => {
-        dynamicFields.appendChild(tplStep5.content.cloneNode(true));
-        const copyBtn = document.getElementById('copy-script-btn');
-        const step5Next = document.getElementById('step-5-next');
-        const step5Skip = document.getElementById('step-5-skip');
-        const scriptCode = '<script src="https://cdn.wap-translate.com/widget.js" data-project="WP-782" async></script>';
+        dynamicFields.appendChild(templates[5].content.cloneNode(true));
+        const nameInput = document.getElementById('support-name');
+        const emailInput = document.getElementById('support-email');
+        
+        nameInput.value = userData.supportName;
+        emailInput.value = userData.supportEmail;
 
-        copyBtn.onclick = () => {
-            navigator.clipboard.writeText(scriptCode).then(() => {
-                copyBtn.innerText = 'Copied!';
-                setTimeout(() => copyBtn.innerText = 'Copy', 2000);
-            });
-        };
-
-        const handleSkip = () => renderStep(6);
-        skipBtn.style.display = 'inline-block';
-        skipBtn.innerText = 'I’ll do this later';
-        skipBtn.onclick = handleSkip;
-        step5Skip.onclick = handleSkip;
-
-        const handleNext = () => {
-            navigator.clipboard.writeText(scriptCode);
-            renderStep(6);
-        };
-        continueBtn.innerText = 'Copy Script & Continue';
-        continueBtn.onclick = handleNext;
-        step5Next.onclick = handleNext;
+        continueBtn.onclick = () => renderStep(6);
     };
 
-    // Final Step: Success
+    // Step 6: Leads Setup
+    const initStep6 = () => {
+        dynamicFields.appendChild(templates[6].content.cloneNode(true));
+        const cards = document.querySelectorAll('.option-card');
+        
+        cards.forEach(card => {
+            card.onclick = () => {
+                cards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                userData.leadsMethod = card.dataset.option;
+                continueBtn.disabled = false;
+            };
+        });
+
+        continueBtn.innerText = 'Finish Setup';
+        continueBtn.disabled = !userData.leadsMethod;
+        continueBtn.onclick = () => renderStep(7);
+    };
+
+    // Final Step
     const initStepFinal = () => {
-        dynamicFields.appendChild(tplStepFinal.content.cloneNode(true));
+        dynamicFields.appendChild(templates.final.content.cloneNode(true));
         continueBtn.style.display = 'none';
         skipBtn.style.display = 'none';
+        backBtn.style.display = 'none';
         
-        document.getElementById('finish-go-project').onclick = () => {
-            alert('Redirecting to your project dashboard...');
+        document.getElementById('finish-generate').onclick = () => {
+            alert('Generating initial sales strategy...');
             closePanel();
         };
         
-        document.getElementById('finish-copy-script').onclick = () => {
-            const scriptCode = '<script src="https://cdn.wap-translate.com/widget.js" data-project="WP-782" async></script>';
-            navigator.clipboard.writeText(scriptCode);
-            alert('Script copied to clipboard!');
+        document.getElementById('finish-dashboard').onclick = () => {
+            closePanel();
         };
     };
 
@@ -265,14 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     skipBtn.onclick = () => {
-        if (currentStep < 5) renderStep(currentStep + 1);
-        else if (currentStep === 5) renderStep(6);
+        if (currentStep < 6) renderStep(currentStep + 1);
+        else renderStep(7);
     };
 
     const openPanel = () => {
         panelOverlay.classList.add('active');
         assistantPanel.classList.add('open');
-        if (currentStep === 1 && dynamicFields.children.length === 0) {
+        if (dynamicFields.children.length === 0) {
             renderStep(1);
         }
     };
@@ -286,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
     closePanelBtn.addEventListener('click', closePanel);
     panelOverlay.addEventListener('click', closePanel);
 
-    // Initial State
-    openPanel();
-
+    // Initial Trigger
+    setTimeout(openPanel, 1000); // Auto-open for new users
 });
