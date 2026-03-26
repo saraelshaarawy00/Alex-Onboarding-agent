@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         6: document.getElementById('tpl-step-6'),
         7: document.getElementById('tpl-step-7'),
         8: document.getElementById('tpl-step-8'),
+        9: document.getElementById('tpl-step-9'),
         final: document.getElementById('tpl-step-final'),
         thinking: document.getElementById('tpl-ai-thinking')
     };
@@ -35,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         serviceFiles: [],
         agentGoal: '',
         persona: { name: 'Alex', tone: 'Professional' },
+        supportName: '',
+        supportEmail: '',
         leadsMethod: '',
         apolloKey: ''
     };
@@ -64,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderStep = (step) => {
         currentStep = step;
         updateStepIndicators(step);
-        backBtn.style.visibility = (step > 1 && step <= 8) ? 'visible' : 'hidden';
+        backBtn.style.visibility = (step > 1 && step <= 9) ? 'visible' : 'hidden';
         dynamicFields.innerHTML = '';
         clearThinking();
         
@@ -72,9 +75,9 @@ document.addEventListener('DOMContentLoaded', () => {
         continueBtn.innerText = 'Next Step';
         continueBtn.style.display = 'inline-block';
         continueBtn.disabled = false;
-        skipBtn.style.display = (step > 8) ? 'none' : 'inline-block';
+        skipBtn.style.display = (step > 9) ? 'none' : 'inline-block';
 
-        if (step > 8) {
+        if (step > 9) {
             initStepFinal();
             return;
         }
@@ -176,6 +179,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.initStep7 = () => {
         dynamicFields.appendChild(templates[7].content.cloneNode(true));
+        const nameInput = document.getElementById('support-name');
+        const emailInput = document.getElementById('support-email');
+        
+        nameInput.value = userData.supportName;
+        emailInput.value = userData.supportEmail;
+        
+        nameInput.addEventListener('input', (e) => userData.supportName = e.target.value);
+        emailInput.addEventListener('input', (e) => userData.supportEmail = e.target.value);
+        
+        continueBtn.onclick = () => renderStep(8);
+    };
+
+    window.initStep8 = () => {
+        dynamicFields.appendChild(templates[8].content.cloneNode(true));
         const cards = document.querySelectorAll('.option-card');
         cards.forEach(card => {
             card.onclick = () => {
@@ -186,11 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
         continueBtn.disabled = !userData.leadsMethod;
-        continueBtn.onclick = () => renderStep(8);
+        continueBtn.onclick = () => renderStep(9);
     };
 
-    window.initStep8 = () => {
-        dynamicFields.appendChild(templates[8].content.cloneNode(true));
+    window.initStep9 = () => {
+        dynamicFields.appendChild(templates[9].content.cloneNode(true));
         const input = document.getElementById('apollo-key');
         input.value = userData.apolloKey;
         input.addEventListener('input', (e) => userData.apolloKey = e.target.value);
@@ -204,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         continueBtn.innerText = 'Finish Setup';
-        continueBtn.onclick = () => renderStep(9);
+        continueBtn.onclick = () => renderStep(10);
     };
 
     const initStepFinal = () => {
@@ -223,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Global Controls ---
     backBtn.onclick = () => { if (currentStep > 1) renderStep(currentStep - 1); };
-    skipBtn.onclick = () => { if (currentStep < 8) renderStep(currentStep + 1); else renderStep(9); };
+    skipBtn.onclick = () => { if (currentStep < 9) renderStep(currentStep + 1); else renderStep(10); };
 
     const openPanel = () => {
         panelOverlay.classList.add('active');

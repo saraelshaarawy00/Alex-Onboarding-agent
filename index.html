@@ -49,6 +49,8 @@
                 <div id="step-7" class="step-indicator"><span>7</span></div>
                 <div class="step-line"></div>
                 <div id="step-8" class="step-indicator"><span>8</span></div>
+                <div class="step-line"></div>
+                <div id="step-9" class="step-indicator"><span>9</span></div>
             </div>
         </div>
 
@@ -164,8 +166,24 @@
         </div>
     </template>
 
-    <!-- Step 7: Leads Setup -->
+    <!-- Step 7: Support Contact -->
     <template id="tpl-step-7">
+        <div class="step-content fade-in">
+            <h3 class="step-title">Who should we contact for backup? 🤝</h3>
+            <p class="step-subtitle">If my AI agent needs human help, who should the lead reach out to?</p>
+            <div class="input-group">
+                <label for="support-name">Support Name</label>
+                <input type="text" id="support-name" placeholder="e.g. Sara Mohamed" class="input-field">
+            </div>
+            <div class="input-group">
+                <label for="support-email">Support Email</label>
+                <input type="email" id="support-email" placeholder="sara@example.com" class="input-field">
+            </div>
+        </div>
+    </template>
+
+    <!-- Step 8: Leads Setup -->
+    <template id="tpl-step-8">
         <div class="step-content fade-in">
             <h3 class="step-title">Who are we reaching out to? 🎯</h3>
             <p class="step-subtitle">Select how you want to add your first batch of leads.</p>
@@ -192,8 +210,8 @@
         </div>
     </template>
 
-    <!-- Step 8: Apollo Integration -->
-    <template id="tpl-step-8">
+    <!-- Step 9: Apollo Integration -->
+    <template id="tpl-step-9">
         <div class="step-content fade-in">
             <h3 class="step-title">Finally, want to connect Apollo? (Optional) 🚀</h3>
             <p class="step-subtitle">This helps in finding more high-quality leads automatically.</p>
